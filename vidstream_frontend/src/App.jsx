@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Routes } from "react-router";
-import Header from "./components/Header";
+import Header from "./components/ui/Header.jsx";
 import DeshBoard from "./pages/DeshBoard.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import LogIn from "./pages/LogIn.jsx";
 import LogOut from "./pages/LogOut.jsx";
-import Container from "./components/Container.jsx"
+import Container from "./components/ui/Container.jsx"
 
 
 
