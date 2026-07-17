@@ -1,7 +1,7 @@
 import React from "react";
 import { FormError } from "./FormError";
 
-function FormInput({label,type,placeholder,register,name,error}) {
+function FormInput({label,type,placeholder,register,error}) {
   return (
     <div>
       

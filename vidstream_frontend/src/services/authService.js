@@ -1,4 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import axios from 'axios';
 
 export async function registerUser(formData) {
   const dataToSend = new FormData();
@@ -16,16 +17,22 @@ export async function registerUser(formData) {
     dataToSend.append("coverImage", formData.coverImage[0]);
   }
 
-  const response = await fetch(
-    `${API_BASE_URL}/api/v1/users/register`,
-    { method: "POST", body: dataToSend }
-  );
+  const response = await axios.post(`${API_BASE_URL}/api/v1/users/register`,dataToSend)
 
-  const data = await response.json();
+  return response;
+}
 
-  if (!response.ok) {
-    throw new Error(data.message ?? "Something went wrong during registration.");
-  }
 
-  return data;
+export async function loginUser(formData) {
+
+  const dataToSend = new FormData();
+
+  dataToSend.append("email",formData.email)
+  dataToSend.append("password",formData.password)
+
+  const response = await axios.post(`${API_BASE_URL}/api/v1/users/login`,dataToSend)
+
+
+  return response
+  
 }

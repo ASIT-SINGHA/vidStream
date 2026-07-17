@@ -2,15 +2,22 @@ import { useSignUp } from "../hooks/useSignUp.js";
 import { ApiAlert } from "../components/ui/ApiAlert.jsx";
 import FormFileInput from "../components/ui/FormFileInput.jsx";
 import FormInput from "../components/ui/FormInput.jsx";
-import {FormError} from "../components/ui/FormError.jsx";
+import { FormError } from "../components/ui/FormError.jsx";
 import SubmitButton from "../components/ui/SubmitButton.jsx";
+import AuthLayout from "../components/layout/AuthLayout.jsx";
 
-
- function SignUp() {
-  const { register, handleSubmit, formState: { errors }, onSubmit, isSubmitting, apiError } = useSignUp();
+function SignUp() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    onSubmit,
+    isSubmitting,
+    apiError,
+  } = useSignUp();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <AuthLayout className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-8 text-center">
           Create Account
@@ -21,14 +28,14 @@ import SubmitButton from "../components/ui/SubmitButton.jsx";
 
           <FormInput
             label="Full Name"
-            placeholder="John Doe"
+            placeholder="Anik Ghosh"
             error={errors.fullName}
             register={register("fullName")}
           />
 
           <FormInput
             label="Username"
-            placeholder="johndoe"
+            placeholder="anikghose"
             error={errors.username}
             register={register("username")}
           />
@@ -36,7 +43,7 @@ import SubmitButton from "../components/ui/SubmitButton.jsx";
           <FormInput
             label="Email"
             type="email"
-            placeholder="john@example.com"
+            placeholder="anik@example.com"
             error={errors.email}
             register={register("email")}
           />
@@ -70,12 +77,15 @@ import SubmitButton from "../components/ui/SubmitButton.jsx";
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <a href="/login" className="font-medium text-blue-600 hover:text-blue-500">
+          <a
+            href="/login"
+            className="font-medium text-blue-600 hover:text-blue-500"
+          >
             Sign in
           </a>
         </p>
       </div>
-    </div>
+    </AuthLayout>
   );
 }
-export default SignUp
+export default SignUp;

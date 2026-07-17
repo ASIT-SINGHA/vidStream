@@ -8,6 +8,7 @@ function AuthLayout({ children }) {
             justify-center
             px-4
             py-8
+            m-2
         ">
             {children}
         </div>
