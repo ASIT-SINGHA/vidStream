@@ -6,9 +6,23 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
-const options = {
+const cookieOptions = {
 	httpOnly: true,
 	secure: true,
+	sameSite: "lax",
+	path: "/",
+};
+
+const setAuthCookies = (res, accessToken, refreshToken) => {
+	res.cookie("accessToken", accessToken, cookieOptions);
+	res.cookie("refreshToken", refreshToken, cookieOptions);
+	return res;
+};
+
+const clearAuthCookies = (res) => {
+	res.clearCookie("accessToken", cookieOptions);
+	res.clearCookie("refreshToken", cookieOptions);
+	return res;
 };
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
@@ -18,7 +32,7 @@ const generateAccessTokenAndRefreshToken = async (userId) => {
 		const refreshToken = user.generateRefreshToken();
 
 		user.refreshToken = refreshToken;
-		user.save({ validateBeforeSave: false });
+		await user.save({ validateBeforeSave: false });
 
 		return { accessToken, refreshToken };
 	} catch (error) {
@@ -122,10 +136,8 @@ const loginUser = asyncHandler(async (req, res) => {
 		"-password -refreshToken",
 	);
 
-	return res
+	return setAuthCookies(res, accessToken, refreshToken)
 		.status(200)
-		.cookie("accessToken", accessToken, options)
-		.cookie("refreshToken", refreshToken, options)
 		.json(
 			new ApiResponse(
 				200,
@@ -155,10 +167,8 @@ const logOutUser = asyncHandler(async (req, res) => {
 		},
 	);
 
-	return res
+	return clearAuthCookies(res)
 		.status(200)
-		.clearCookie("accessToken", options)
-		.clearCookie("refreshToken", options)
 		.json(new ApiResponse(200, {}, "user logout successfully."));
 });
 
@@ -184,13 +194,11 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 			throw new ApiError(400, "refresh token is expire or used. ");
 		}
 
-		const { accessToken, newRefreshToken } =
+		const { accessToken, refreshToken: newRefreshToken } =
 			await generateAccessTokenAndRefreshToken(user._id);
 
-		return res
+		return setAuthCookies(res, accessToken, newRefreshToken)
 			.status(200)
-			.cookie("accessToken", accessToken, options)
-			.cookie("refreshToken", newRefreshToken, options)
 			.json(
 				new ApiResponse(
 					200,
@@ -227,7 +235,10 @@ const changedCurrentPassword = asyncHandler(async (req, res) => {
 	user.password = newPassword;
 	await user.save({ validateBeforeSave: false });
 
-	return res
+	const { accessToken, refreshToken: rotatedRefreshToken } =
+		await generateAccessTokenAndRefreshToken(user._id);
+
+	return setAuthCookies(res, accessToken, rotatedRefreshToken)
 		.status(200)
 		.json(new ApiResponse(200, {}, "password change successfully. "));
 });
