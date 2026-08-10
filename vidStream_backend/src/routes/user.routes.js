@@ -15,11 +15,13 @@ import {
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.meddleware.js";
+import { loginLimiter, uploadLimiter } from "../middlewares/rateLimit.middleware.js";
 
 const router = Router();
 router.use(express.json({ limit: "16kb" }));
 
 router.route("/register").post(
+	uploadLimiter,
 	upload.fields([
 		{
 			name: "avatar",
@@ -32,7 +34,7 @@ router.route("/register").post(
 	]),
 	registerUser,
 );
-router.route("/login").post(upload.none(), loginUser);
+router.route("/login").post(loginLimiter, upload.none(), loginUser);
 router.route("/logout").post(upload.none(), verifyJWT, logOutUser);
 router.route("/refresh-token").post(refreshAccessToken);
 router
@@ -44,10 +46,10 @@ router
 	.patch(verifyJWT, upload.none(), updateUserAccoundDetails);
 router
 	.route("/update-avatar")
-	.patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
+	.patch(verifyJWT, uploadLimiter, upload.single("avatar"), updateUserAvatar);
 router
 	.route("/update-coverImage")
-	.patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
+	.patch(verifyJWT, uploadLimiter, upload.single("coverImage"), updateUserCoverImage);
 
 router.route("/c/:username").get(verifyJWT, getUserChannelProfile);
 router.route("/watch-history").get(upload.none(), verifyJWT, getWatchHistory);

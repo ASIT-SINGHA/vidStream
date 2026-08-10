@@ -1,6 +1,7 @@
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.meddleware.js";
 import { Router } from "express";
+import { uploadLimiter } from "../middlewares/rateLimit.middleware.js";
 
 import {
 	uploadAVideo,
@@ -20,6 +21,7 @@ router
 	.route("/")
 	.get(getAllVideo)
 	.post(
+		uploadLimiter,
 		upload.fields([
 			{ name: "videoFile", maxCount: 1 },
 			{ name: "thumbnail", maxCount: 1 },

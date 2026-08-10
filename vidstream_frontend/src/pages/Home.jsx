@@ -1,12 +1,12 @@
 import React from 'react'
 import MainLayout from '../components/layout/MainLayout'
 
-function DeshBoard() {
+function Home() {
   return (
     <MainLayout>
-      <h1>DeshBoard</h1>
+        <h1>welcome to Home page.</h1>
     </MainLayout>
   )
 }
 
-export default DeshBoard
+export default Home
