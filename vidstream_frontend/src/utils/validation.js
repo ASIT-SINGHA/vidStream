@@ -1,7 +1,7 @@
-import {email, string, z} from "zod"
+import { z } from "zod";
 
-//user validatiton schema zod
-export const userSignUpSchema=z.object({
+// user validation schema zod
+export const userSignUpSchema = z.object({
   fullName:z.string().min(3,"Full name must be atleast 3 charactor"),
   username:z.string().min(3,"user name must be atleast 3 charator"),
   email:z.string().email("Invalid email address"),
@@ -18,6 +18,6 @@ export const userSignUpSchema=z.object({
 })
 
 export const loginUserSchame = z.object({
-  email:z.string().email("Invalid email address "),
-  password:z.string().min(6,"password must be atleast 6 character")
-})
+  email: z.string().email("Invalid email address "),
+  password: z.string().min(6, "password must be atleast 6 character"),
+});
