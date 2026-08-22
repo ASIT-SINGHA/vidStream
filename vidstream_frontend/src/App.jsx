@@ -15,21 +15,20 @@ import VideoUpload from "./pages/VideoUpload.jsx";
 function App() {
   return (
     <Container>
-      <Navbar />
       <Routes>
         //public route
-        <route element={AuthLayout}>
+        <Route element={<AuthLayout/>}>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/logout" element={<LogOut />} />
-        </route>
+        </Route>
         // private route
-        <route element={MainLayout}>
+        <Route element={<MainLayout/>}>
           <Route path="/" element={<Home />} />
           <Route path="/deshboard" element={<DeshBoard />} />
-          <Route path="/video-upload" element={<VideoUploadUpload />} />
-          <Route path="/video-details" element={<VideoDetailsDetails />} />
-        </route>
+          <Route path="/video-upload" element={<VideoUpload />} />
+          <Route path="/video-details" element={<VideoDetails />} />
+        </Route>
       </Routes>
     </Container>
   );

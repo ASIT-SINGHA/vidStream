@@ -1,13 +1,11 @@
-import React from 'react'
-import Header from '../ui/Header'
+import { Outlet } from "react-router";
 
-function MainLayout({ children }) {
+function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900 m-1">
-      <Header />
-
+      
       <main className="flex-1 w-full">
-        {children}
+        <Outlet/>
       </main>
       
     </div>
