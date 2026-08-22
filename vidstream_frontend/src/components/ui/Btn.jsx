@@ -1,12 +1,12 @@
-import React from "react";
-
-function Btn({ children, className = "" }) {
-  return (
-    <button
-      className="p-2 mx-2 border-2 rounded-2xl">
-      {children}
-    </button>
-  );
+function Btn({
+  children,
+  btnType="button",
+  bgColor = "bg-white",
+  textColor = "text-black",
+  className = "",
+  ...props
+}) {
+  return <button type={btnType} className={` ${bgColor} ${textColor} ${className}`} {... props}>{children}</button>;
 }
 
 export default Btn;
